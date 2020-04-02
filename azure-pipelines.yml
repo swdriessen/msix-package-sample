@@ -54,12 +54,12 @@ steps:
 
 - powershell: |
    [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq") | Out-Null
-   $path = "$(System.DefaultWorkingDirectory)/MSIXPackage/Package.appxmanifest"
+   $path = "$(Build.SourcesDirectory)/MSIXPackage/Package.appxmanifest"
    $doc = [System.Xml.Linq.XDocument]::Load($path)
    $xName = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
    $doc.Root.Element($xName).Attribute("Version").Value = "$(major).$(minor).$(build).$(revision)";
    $doc.Save($path)
-  displayName: 'Increment Package Manifest Revision $(System.DefaultWorkingDirectory)/MSIXPackage/Package.appxmanifest'
+  displayName: 'Increment Package Manifest Revision $(Build.SourcesDirectory)/MSIXPackage/Package.appxmanifest'
 
 # build package
 - task: MSBuild@1
