@@ -67,11 +67,36 @@ steps:
     solution: '$(System.DefaultWorkingDirectory)/src/MSIXPackage/MSIXPackage.wapproj'
     platform: $(buildPlatform)
     configuration: $(buildConfiguration)
-    msbuildArguments: '/p:OutputPath=NonPackagedApp /p:UapAppxPackageBuildMode=SideLoadOnly /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\MSIXPackage.msix /p:AppxPackageSigningEnabled=false'
+    # msbuildArguments: '/p:OutputPath=NonPackagedApp /p:UapAppxPackageBuildMode=SideLoadOnly 
+    # /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\MSIXPackage.msix /p:AppxPackageSigningEnabled=false'
+
+    # msbuildArguments: '/p:AppxBundlePlatforms="$(buildPlatform)" 
+    #               /p:AppxPackageDir="$(appxPackageDir)" 
+    #               /p:AppxBundle=Never 
+    #               p:UapAppxPackageBuildMode=SideLoadOnly 
+    #               /p:AppxPackageSigningEnabled=true
+    #               /p:PackageCertificateThumbprint="" 
+    #               /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
+
+    msbuildArguments: '/p:OutputPath=NonPackagedApp 
+    /p:UapAppxPackageBuildMode=SideLoadOnly  
+    /p:AppxBundle=Never 
+    /p:GenerateAppInstallerFile=True
+    /p:AppInstallerUri=http://downloads.swdriessen.nl/msix/ 
+    /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun 
+    /p:AppInstallerUpdateFrequency=1 
+    /p:AppxPackageDir=$(Build.ArtifactStagingDirectory)/
+    /p:AppxPackageSigningEnabled=true
+    /p:PackageCertificateThumbprint="" 
+    /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
+    
+    '
+
   displayName: 'Package the App'
 
 # sign package
 - task: DownloadSecureFile@1
+  name: signingCert
   inputs:
     secureFile: '$(certificateName)'
   displayName: 'Download Secure PFX File'
