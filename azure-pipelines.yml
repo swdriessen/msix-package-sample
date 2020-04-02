@@ -16,17 +16,17 @@ variables:
   dotNetCoreVersion: '3.1.x'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK $(dotNetCoreVersion)'
   inputs:
     version: '$(dotNetCoreVersion)'
     performMultiLevelLookup: true
+
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
 
 - task: VSBuild@1
   inputs:
