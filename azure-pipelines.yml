@@ -26,7 +26,7 @@ steps:
   displayName: 'Install .NET Core SDK $(dotNetCoreVersion)'
   inputs:
     version: '$(dotNetCoreVersion)'
-    packageType: 'sdk'
+    performMultiLevelLookup: true
 
 - task: VSBuild@1
   inputs:
