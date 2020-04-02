@@ -85,10 +85,10 @@ steps:
     /p:AppInstallerUri=http://downloads.swdriessen.nl/msix/ 
     /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun 
     /p:AppInstallerUpdateFrequency=1 
-    /p:AppxPackageDir=$(Build.ArtifactStagingDirectory)/
-    /p:AppxPackageSigningEnabled=true
-    /p:PackageCertificateThumbprint="" 
-    /p:PackageCertificateKeyFile="$(Agent.TempDirectory)/$(certificateName)"'
+    /p:AppxPackageDir=$(Build.ArtifactStagingDirectory)/'
+    # /p:AppxPackageSigningEnabled=true
+    # /p:PackageCertificateThumbprint="" 
+    # /p:PackageCertificateKeyFile="$(Agent.TempDirectory)/$(certificateName)"'
 
   displayName: 'Package the App'
 
