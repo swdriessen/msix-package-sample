@@ -88,9 +88,7 @@ steps:
     /p:AppxPackageDir=$(Build.ArtifactStagingDirectory)/
     /p:AppxPackageSigningEnabled=true
     /p:PackageCertificateThumbprint="" 
-    /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
-    
-    '
+    /p:PackageCertificateKeyFile="$(Agent.TempDirectory)/$(certificateName)"'
 
   displayName: 'Package the App'
 
