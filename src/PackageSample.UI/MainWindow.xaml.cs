@@ -26,9 +26,11 @@ namespace PackageSample.UI
         {
             InitializeComponent();
 
-            txtUIVersion.Text = $"ui: {Assembly.GetExecutingAssembly().GetName().Version}";
+            this.Title += " - v1.0.0";
 
-            txtLibraryVersion.Text = $"dll: {LibraryHelper.GetVersion()}";
+            txtUIVersion.Text = $"{Assembly.GetExecutingAssembly().GetName().Version}";
+
+            txtLibraryVersion.Text = $"{LibraryHelper.GetVersion()}";
         }
     }
 }
