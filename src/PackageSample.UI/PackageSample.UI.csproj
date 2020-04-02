@@ -6,4 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PackageSample.Library\PackageSample.Library.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PackageSample.Library;
 
 namespace PackageSample.UI
 {
@@ -23,6 +25,10 @@ namespace PackageSample.UI
         public MainWindow()
         {
             InitializeComponent();
+
+            txtUIVersion.Text = $"ui: {Assembly.GetExecutingAssembly().GetName().Version}";
+
+            txtLibraryVersion.Text = $"dll: {LibraryHelper.GetVersion()}";
         }
     }
 }
