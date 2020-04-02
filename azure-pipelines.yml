@@ -14,6 +14,7 @@ variables:
   buildPlatform: 'x64'
   buildConfiguration: 'Release'
   dotNetCoreVersion: '3.1.x'
+  certificateName: 'MSIXPackage_TemporaryKey.pfx'
   major: 1
   minor: 0
   build: 0
@@ -32,15 +33,6 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-# - powershell: |
-#    [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq") | Out-Null
-#    $path = "$(System.DefaultWorkingDirectory)/MSIXPackage/Package.appxmanifest"
-#    $doc = [System.Xml.Linq.XDocument]::Load($path)
-#    $xName = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
-#    $doc.Root.Element($xName).Attribute("Version").Value = "$(major).$(minor).$(build).$(revision)";
-#    $doc.Save($path)
-#   displayName: 'Increment Package Manifest Revision'
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -58,15 +50,41 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-#create package here
+#auto increment revision version
 
-#sign package 
+- powershell: |
+   [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq") | Out-Null
+   $path = "$(System.DefaultWorkingDirectory)/MSIXPackage/Package.appxmanifest"
+   $doc = [System.Xml.Linq.XDocument]::Load($path)
+   $xName = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
+   $doc.Root.Element($xName).Attribute("Version").Value = "$(major).$(minor).$(build).$(revision)";
+   $doc.Save($path)
+  displayName: 'Increment Package Manifest Revision'
 
+# build package
+- task: MSBuild@1
+  inputs:
+    solution: '$(System.DefaultWorkingDirectory)/MSIXPackage/MSIXPackage.wapproj'
+    platform: $(buildPlatform)
+    configuration: $(buildConfiguration)
+    msbuildArguments: '/p:OutputPath=NonPackagedApp /p:UapAppxPackageBuildMode=SideLoadOnly /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\MSIXPackage.msix /p:AppxPackageSigningEnabled=false'
+  displayName: 'Package the App'
+
+#sign package
+# - task: DownloadSecureFile@1
+#   inputs:
+#     secureFile: '$(certificateName)'
+#   displayName: 'Download Secure PFX File'
+
+# - script: 'signtool sign /fd SHA256 /f $(Agent.TempDirectory)/$(certificateName) /p secret $(Build.ArtifactStagingDirectory)/MSIXPackage.msix'
+#   displayName: 'Sign MSIX Package'
+
+#copy app packages content
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\AppPackages\**'
+    Contents: '**\bin\$(BuildConfiguration)\**'
     TargetFolder: '$(build.artifactstagingdirectory)'
     OverWrite: true
   condition: succeededOrFailed()
