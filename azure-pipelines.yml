@@ -54,7 +54,7 @@ steps:
 
 - powershell: |
    [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq") | Out-Null
-   $path = "**/MSIXPackage/Package.appxmanifest"
+   $path = "$(System.DefaultWorkingDirectory)/src/MSIXPackage/Package.appxmanifest"
    $doc = [System.Xml.Linq.XDocument]::Load($path)
    $xName = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
    $doc.Root.Element($xName).Attribute("Version").Value = "$(major).$(minor).$(build).$(revision)";
@@ -64,7 +64,7 @@ steps:
 # build package
 - task: MSBuild@1
   inputs:
-    solution: '$(System.DefaultWorkingDirectory)/MSIXPackage/MSIXPackage.wapproj'
+    solution: '$(System.DefaultWorkingDirectory)/src/MSIXPackage/MSIXPackage.wapproj'
     platform: $(buildPlatform)
     configuration: $(buildConfiguration)
     msbuildArguments: '/p:OutputPath=NonPackagedApp /p:UapAppxPackageBuildMode=SideLoadOnly /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\MSIXPackage.msix /p:AppxPackageSigningEnabled=false'
