@@ -54,12 +54,12 @@ steps:
 
 - powershell: |
    [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq") | Out-Null
-   $path = "$(Build.SourcesDirectory)/MSIXPackage/Package.appxmanifest"
+   $path = "**/MSIXPackage/Package.appxmanifest"
    $doc = [System.Xml.Linq.XDocument]::Load($path)
    $xName = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
    $doc.Root.Element($xName).Attribute("Version").Value = "$(major).$(minor).$(build).$(revision)";
    $doc.Save($path)
-  displayName: 'Increment Package Manifest Revision $(Build.SourcesDirectory)/MSIXPackage/Package.appxmanifest'
+  displayName: 'Increment Package Manifest Revision '
 
 # build package
 - task: MSBuild@1
@@ -70,14 +70,14 @@ steps:
     msbuildArguments: '/p:OutputPath=NonPackagedApp /p:UapAppxPackageBuildMode=SideLoadOnly /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\MSIXPackage.msix /p:AppxPackageSigningEnabled=false'
   displayName: 'Package the App'
 
-#sign package
-# - task: DownloadSecureFile@1
-#   inputs:
-#     secureFile: '$(certificateName)'
-#   displayName: 'Download Secure PFX File'
+# sign package
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: '$(certificateName)'
+  displayName: 'Download Secure PFX File'
 
-# - script: 'signtool sign /fd SHA256 /f $(Agent.TempDirectory)/$(certificateName) /p secret $(Build.ArtifactStagingDirectory)/MSIXPackage.msix'
-#   displayName: 'Sign MSIX Package'
+- script: 'signtool sign /fd SHA256 /f $(Agent.TempDirectory)/$(certificateName) /p secret $(Build.ArtifactStagingDirectory)/MSIXPackage.msix'
+  displayName: 'Sign MSIX Package'
 
 #copy app packages content
 - task: CopyFiles@2
