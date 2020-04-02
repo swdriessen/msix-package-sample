@@ -66,7 +66,9 @@ steps:
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\AppPackages\**'
+    Contents: |
+      '**\AppPackages\*'
+      '**\AppPackages\**'
     TargetFolder: '$(build.artifactstagingdirectory)'
     OverWrite: true
   condition: succeededOrFailed()
