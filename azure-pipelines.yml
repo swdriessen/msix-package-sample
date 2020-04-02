@@ -59,7 +59,7 @@ steps:
    $xName = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
    $doc.Root.Element($xName).Attribute("Version").Value = "$(major).$(minor).$(build).$(revision)";
    $doc.Save($path)
-  displayName: 'Increment Package Manifest Revision'
+  displayName: 'Increment Package Manifest Revision $(System.DefaultWorkingDirectory)/MSIXPackage/Package.appxmanifest'
 
 # build package
 - task: MSBuild@1
@@ -81,7 +81,7 @@ steps:
 
 #copy app packages content
 - task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  displayName: 'Copy Files to $(build.artifactstagingdirectory)'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: '**\bin\$(BuildConfiguration)\**'
