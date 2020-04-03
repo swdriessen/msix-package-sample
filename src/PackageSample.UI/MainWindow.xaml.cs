@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -35,6 +36,11 @@ namespace PackageSample.UI
             txtLibraryVersion.Text = $"{LibraryHelper.GetVersion()}";
 
             txtPackageVersion.Text = LibraryHelper.GetPackageInfo().Version ?? "N/A";
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://downloads.swdriessen.nl/msix");
         }
     }
 }

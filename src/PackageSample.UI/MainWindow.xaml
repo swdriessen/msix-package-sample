@@ -32,7 +32,12 @@
             <TextBox Text="https://github.com/swdriessen/msix-package-sample" />
 
             <TextBlock Text="Update URL" />
-            <TextBox Text="https://downloads.swdriessen.nl/msix" />
+            <!--<TextBox Text="https://downloads.swdriessen.nl/msix" />-->
+
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Margin="4,0,0,0" MinWidth="26" Padding="8,4" Click="Button_Click">Browse</Button>
+                <TextBox Text="https://downloads.swdriessen.nl/msix" />
+            </DockPanel>
         </StackPanel>
     </Grid>
 </Window>
