@@ -17,9 +17,8 @@ variables:
   certificateName: 'MSIXPackage_TemporaryKey.pfx'
   major: 1
   minor: 0
-  build: 0
+  build: 1
   revision: $[counter('rev', 0)]
-  packageName: 'MSIX Package Sample'
   packageUrl: https://downloads.swdriessen.nl/msix
 
 steps:
