@@ -8,12 +8,12 @@
 
   <Identity
     Name="3b64c250-85a4-48f9-8be0-e100e8d7541c"
-    Publisher="CN=bas_d"
+    Publisher="CN=swdriessen"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>MSIX Sample</DisplayName>
-    <PublisherDisplayName>bas_d</PublisherDisplayName>
+    <PublisherDisplayName>swdriessen</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
