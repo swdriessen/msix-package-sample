@@ -89,8 +89,8 @@ steps:
     /p:AppInstallerUpdateFrequency=1 
     /p:AppxPackageDir=$(Build.ArtifactStagingDirectory)/
     /p:AppxPackageSigningEnabled=true
-    /p:PackageCertificateThumbprint="" 
-    /p:PackageCertificateKeyFile="$(Agent.TempDirectory)/$(certificateName)"'
+    /p:PackageCertificateThumbprint="444EAE8EF9A571539D03E3A37D76A780F504171B" 
+    /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
 
   displayName: 'Package the App'
 
@@ -101,7 +101,7 @@ steps:
     secureFile: '$(certificateName)'
   displayName: 'Download Secure PFX File'
 
-# - script: '"C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x86\signtool" sign /fd SHA256 /f $(Agent.TempDirectory)/$(certificateName) /p $(secret) $(Build.ArtifactStagingDirectory)/MSIXPackage.msix'
+# - script: '"C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x86\signtool" sign /fd SHA256 /f $(signingCert.secureFilePath) /p $(secret) $(Build.ArtifactStagingDirectory)/MSIXPackage.msix'
 #   displayName: 'Sign MSIX Package'
 
 #copy app packages content
