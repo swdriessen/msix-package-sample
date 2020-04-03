@@ -10,22 +10,29 @@
     <Grid>
         <Grid.Resources>
             <Style TargetType="TextBox">
-                <Setter Property="Margin" Value="0,0,0,10" />
+                <Setter Property="Margin" Value="0,0,0,0" />
                 <Setter Property="Padding" Value="4" />
             </Style>
             <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="0,0,0,4" />
+                <Setter Property="Margin" Value="0,10,0,2" />
+                <Setter Property="FontWeight" Value="SemiBold" />
             </Style>
         </Grid.Resources>
-        <StackPanel Margin="10">
+        <StackPanel Margin="10,0">
             <TextBlock Text="UI Version" />
             <TextBox x:Name="txtUIVersion" Text="UI Version" />
 
             <TextBlock Text="Library Version" />
             <TextBox x:Name="txtLibraryVersion" Text="Library Version" />
 
+            <TextBlock Text="Package Version" />
+            <TextBox x:Name="txtPackageVersion" Text="Package Version" />
+
             <TextBlock Text="Repository" />
             <TextBox Text="https://github.com/swdriessen/msix-package-sample" />
+
+            <TextBlock Text="Update URL" />
+            <TextBox Text="https://downloads.swdriessen.nl/msix" />
         </StackPanel>
     </Grid>
 </Window>
