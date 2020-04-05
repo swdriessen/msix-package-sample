@@ -29,15 +29,21 @@
             <TextBox x:Name="txtPackageVersion" Text="Package Version" />
 
             <TextBlock Text="Repository" />
-            <TextBox Text="https://github.com/swdriessen/msix-package-sample" />
+            <!--<TextBox Text="https://github.com/swdriessen/msix-package-sample" />-->
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Margin="4,0,0,0" MinWidth="26" Padding="8,4" Click="BrowseRepositoryClick">Browse</Button>
+                <TextBox Text="https://github.com/swdriessen/msix-package-sample" />
+            </DockPanel>
 
             <TextBlock Text="Update URL" />
             <!--<TextBox Text="https://downloads.swdriessen.nl/msix" />-->
 
             <DockPanel>
-                <Button DockPanel.Dock="Right" Margin="4,0,0,0" MinWidth="26" Padding="8,4" Click="Button_Click">Browse</Button>
+                <Button DockPanel.Dock="Right" Margin="4,0,0,0" MinWidth="26" Padding="8,4" Click="BrowsePackageClick">Browse</Button>
                 <TextBox Text="https://downloads.swdriessen.nl/msix" />
             </DockPanel>
+
+            <Button Content="Check for Application Update" Margin="0,14" Padding="8,4" Click="ButtonBase_OnClick" MinWidth="75" HorizontalAlignment="Right"/>
         </StackPanel>
     </Grid>
 </Window>

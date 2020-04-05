@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 
 namespace PackageSample.Library
@@ -28,6 +29,11 @@ namespace PackageSample.Library
                 // the app is not running from the package, return and empty info
                 return new PackageInfo();
             }
+        }
+
+        public async static Task<PackageUpdateAvailabilityResult> Check()
+        {
+            return await Package.Current.CheckUpdateAvailabilityAsync();
         }
     }
 

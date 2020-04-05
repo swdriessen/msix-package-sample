@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Windows.ApplicationModel;
 using PackageSample.Library;
 
 namespace PackageSample.UI
@@ -38,9 +39,43 @@ namespace PackageSample.UI
             txtPackageVersion.Text = LibraryHelper.GetPackageInfo().Version ?? "N/A";
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BrowsePackageClick(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://downloads.swdriessen.nl/msix");
+            var url = "https://downloads.swdriessen.nl/msix";
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            };
+
+            Process.Start(psi);
+        }
+
+        private void BrowseRepositoryClick(object sender, RoutedEventArgs e)
+        {
+            var url = "https://github.com/swdriessen/msix-package-sample";
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            };
+
+            Process.Start(psi);
+        }
+
+        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var result = await LibraryHelper.Check();
+
+                if (result.Availability == PackageUpdateAvailability.Available)
+                    MessageBox.Show("Restart the application to apply the updates.", "Update Available!");
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
     }
 }

@@ -13,5 +13,12 @@ namespace PackageSample.UI
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            if (e.Args.Any())
+            {
+                MessageBox.Show(string.Join(", ", e.Args), "Arguments Provided");
+            }
+        }
     }
 }
