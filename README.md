@@ -2,4 +2,4 @@
 
 testing MSIX installer in combination with CI/CD
 
-<a href="aurora-index:?source=https://raw.githubusercontent.com/aurorabuilder/elements/master/core.index">Index Url</a>
+(Launchable Indices)[https://downloads.swdriessen.nl/msix/indices.html]
