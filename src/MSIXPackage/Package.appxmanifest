@@ -10,7 +10,7 @@
   <Identity
     Name="3b64c250-85a4-48f9-8be0-e100e8d7541c"
     Publisher="CN=swdriessen"
-    Version="1.0.1.0" />
+    Version="1.0.2.0" />
 
   <Properties>
     <DisplayName>MSIX Sample</DisplayName>
@@ -56,6 +56,20 @@
         </uap:Extension>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="aurora-index" />
+        </uap:Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="aurora">
+            <uap:DisplayName>Aurora</uap:DisplayName>
+            <uap:Logo>sample-icon.jpg</uap:Logo>
+          </uap:Protocol>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="characterfile">
+            <uap:SupportedFileTypes>
+              <uap:FileType>.aurora</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:DisplayName>Aurora Character File</uap:DisplayName>
+          </uap:FileTypeAssociation>
         </uap:Extension>
       </Extensions>
     </Application>
