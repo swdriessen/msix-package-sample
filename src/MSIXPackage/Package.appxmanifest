@@ -54,6 +54,9 @@
             </uap:SupportedFileTypes>
           </uap3:FileTypeAssociation>
         </uap:Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="aurora-index" />
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
