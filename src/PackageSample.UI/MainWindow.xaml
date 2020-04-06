@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PackageSample.UI"
         mc:Ignorable="d" Background="#eee"
         WindowStartupLocation="CenterScreen"
-        Title="Package Sample" Height="400" Width="600">
+        Title="Package Sample" Height="450" Width="700">
     <Grid>
         <Grid.Resources>
             <Style TargetType="TextBox">
@@ -19,14 +19,17 @@
             </Style>
         </Grid.Resources>
         <StackPanel Margin="10,0">
-            <TextBlock Text="UI Version" />
+            <TextBlock Text="UI Assembly Version" />
             <TextBox x:Name="txtUIVersion" Text="UI Version" />
 
-            <TextBlock Text="Library Version" />
+            <TextBlock Text="Library Assembly Version" />
             <TextBox x:Name="txtLibraryVersion" Text="Library Version" />
 
             <TextBlock Text="Package Version" />
             <TextBox x:Name="txtPackageVersion" Text="Package Version" />
+
+            <TextBlock Text="Arguments" />
+            <TextBox x:Name="txtArgs" Text="Arguments" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Disabled"/>
 
             <TextBlock Text="Repository" />
             <!--<TextBox Text="https://github.com/swdriessen/msix-package-sample" />-->

@@ -24,7 +24,7 @@ namespace PackageSample.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(string[] args)
         {
             InitializeComponent();
 
@@ -37,6 +37,11 @@ namespace PackageSample.UI
             txtLibraryVersion.Text = $"{LibraryHelper.GetVersion()}";
 
             txtPackageVersion.Text = LibraryHelper.GetPackageInfo().Version ?? "N/A";
+
+            if (args.Any())
+                txtArgs.Text = string.Join(Environment.NewLine, args);
+            else
+                txtArgs.Text = "N/A";
         }
 
         private void BrowsePackageClick(object sender, RoutedEventArgs e)

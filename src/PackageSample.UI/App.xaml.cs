@@ -17,8 +17,13 @@ namespace PackageSample.UI
         {
             if (e.Args.Any())
             {
-                MessageBox.Show(string.Join(", ", e.Args), "Arguments Provided");
+                //MessageBox.Show(string.Join(", ", e.Args), "Arguments Provided");
             }
+
+
+
+            this.MainWindow = new MainWindow(e.Args);
+            this.MainWindow.Show();
         }
     }
 }

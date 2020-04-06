@@ -48,10 +48,13 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.fileTypeAssociation">
-          <uap3:FileTypeAssociation Name="characterfiles">
+          <uap3:FileTypeAssociation Name="characterfile">
             <uap:SupportedFileTypes>
-              <uap:FileType>.dnd5e</uap:FileType>
+              <uap:FileType ContentType="text/xml">.dnd5e</uap:FileType>
             </uap:SupportedFileTypes>
+            <uap:DisplayName>Aurora Character File</uap:DisplayName>
+            <uap:Logo>sample-icon.jpg</uap:Logo>
+            <uap:InfoTip>This is a character file for Aurora.</uap:InfoTip>
           </uap3:FileTypeAssociation>
         </uap:Extension>
         <uap:Extension Category="windows.protocol">
@@ -64,11 +67,13 @@
           </uap:Protocol>
         </uap:Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="characterfile">
+          <uap:FileTypeAssociation Name="aurorafile">
             <uap:SupportedFileTypes>
-              <uap:FileType>.aurora</uap:FileType>
+              <uap:FileType ContentType="text/xml">.aurora</uap:FileType>
             </uap:SupportedFileTypes>
-            <uap:DisplayName>Aurora Character File</uap:DisplayName>
+            <uap:DisplayName>Aurora File</uap:DisplayName>
+            <uap:InfoTip>This is a file for Aurora.</uap:InfoTip>
+            <uap:Logo>sample-icon.jpg</uap:Logo>
           </uap:FileTypeAssociation>
         </uap:Extension>
       </Extensions>
