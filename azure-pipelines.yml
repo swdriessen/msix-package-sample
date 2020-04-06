@@ -34,22 +34,22 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-#- task: VSBuild@1
-#  inputs:
-#    solution: '$(solution)'
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
-#- task: VSTest@2
-#  inputs:
-#    testSelector: 'testAssemblies'
-#    testAssemblyVer2: |
-#      **\*.Tests.dll
-#      !**\*TestAdapter.dll
-#      !**\obj\**
-#    searchFolder: '$(System.DefaultWorkingDirectory)'
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*.Tests.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 #auto increment revision version
 
