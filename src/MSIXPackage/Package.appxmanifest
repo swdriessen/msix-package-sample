@@ -53,7 +53,7 @@
               <uap:FileType ContentType="text/xml">.dnd5e</uap:FileType>
             </uap:SupportedFileTypes>
             <uap:DisplayName>Aurora Character File</uap:DisplayName>
-            <uap:Logo>sample-icon.jpg</uap:Logo>
+            <uap:Logo>viking-padded.png</uap:Logo>
             <uap:InfoTip>This is a character file for Aurora.</uap:InfoTip>
           </uap3:FileTypeAssociation>
         </uap:Extension>
@@ -73,7 +73,7 @@
             </uap:SupportedFileTypes>
             <uap:DisplayName>Aurora File</uap:DisplayName>
             <uap:InfoTip>This is a file for Aurora.</uap:InfoTip>
-            <uap:Logo>sample-icon.jpg</uap:Logo>
+            <uap:Logo>viking-padded.png</uap:Logo>
           </uap:FileTypeAssociation>
         </uap:Extension>
       </Extensions>
