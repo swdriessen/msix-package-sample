@@ -34,24 +34,22 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
-  inputs:
-    solution: |
-      **/*.csproj
-      !**/*.wapproj
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+#- task: VSBuild@1
+#  inputs:
+#    solution: '$(solution)'
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*.Tests.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+#- task: VSTest@2
+#  inputs:
+#    testSelector: 'testAssemblies'
+#    testAssemblyVer2: |
+#      **\*.Tests.dll
+#      !**\*TestAdapter.dll
+#      !**\obj\**
+#    searchFolder: '$(System.DefaultWorkingDirectory)'
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
 
 #auto increment revision version
 
@@ -65,9 +63,10 @@ steps:
   displayName: 'Increment Package Manifest Revision'
 
 # build package
-- task: MSBuild@1
+- task: VSBuild@1
   inputs:
-    solution: '$(System.DefaultWorkingDirectory)/src/MSIXPackage/MSIXPackage.wapproj'
+    #solution: '$(System.DefaultWorkingDirectory)/src/MSIXPackage/MSIXPackage.wapproj'
+    solution: '$(solution)'
     platform: $(buildPlatform)
     configuration: $(buildConfiguration)
     # msbuildArguments: '/p:OutputPath=NonPackagedApp /p:UapAppxPackageBuildMode=SideLoadOnly 
@@ -80,8 +79,8 @@ steps:
     #               /p:AppxPackageSigningEnabled=true
     #               /p:PackageCertificateThumbprint="" 
     #               /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
-
-    msbuildArguments: '/p:OutputPath=NonPackagedApp 
+    
+    msbuildArgs: '/p:OutputPath=NonPackagedApp 
     /p:UapAppxPackageBuildMode=SideLoadOnly  
     /p:AppxBundle=Never 
     /p:GenerateAppInstallerFile=True
@@ -94,7 +93,7 @@ steps:
     /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
     /p:PackageCertificatePassword="$(secret)"'
 
-  displayName: 'Package the App'
+  #displayName: 'Package the App'
 
 # sign package
 - task: DownloadSecureFile@1
