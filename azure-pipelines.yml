@@ -34,22 +34,22 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+#- task: VSBuild@1
+#  inputs:
+#    solution: '$(solution)'
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*.Tests.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+#- task: VSTest@2
+#  inputs:
+#    testSelector: 'testAssemblies'
+#    testAssemblyVer2: |
+#      **\*.Tests.dll
+#      !**\*TestAdapter.dll
+#      !**\obj\**
+#    searchFolder: '$(System.DefaultWorkingDirectory)'
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
 
 #auto increment revision version
 
@@ -101,8 +101,17 @@ steps:
     secureFile: '$(certificateName)'
   displayName: 'Download Secure PFX File'
 
-# - script: '"C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x86\signtool" sign /fd SHA256 /f $(signingCert.secureFilePath) /p $(secret) $(Build.ArtifactStagingDirectory)/MSIXPackage.msix'
-#   displayName: 'Sign MSIX Package'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*.Tests.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 #copy app packages content
 - task: CopyFiles@2
