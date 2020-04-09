@@ -98,12 +98,11 @@ jobs:
       /p:GenerateAppInstallerFile=True
       /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun
       /p:AppInstallerUpdateFrequency=1
-      /p:AppxBundle=Never'
-      #/p:OutputPath=NonPackagedApp
+      /p:AppxBundle=Never
       /p:AppxPackageSigningEnabled=false
       /p:PackageCertificateThumbprint="444EAE8EF9A571539D03E3A37D76A780F504171B" 
       /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
-      /p:PackageCertificatePassword="$(secret)"
+      /p:PackageCertificatePassword="$(secret)"'
   
   - task: VSTest@2
     inputs:
