@@ -42,92 +42,93 @@ jobs:
         packageIdentitySuffix: ''
         packageDisplayNameSuffix: ''
 
-steps:
-- task: UseDotNet@2
-  displayName: 'Install .NET Core $(dotnetVersion)'
-  inputs:
-    version: '$(dotnetVersion)'
-    performMultiLevelLookup: true
-
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-    
-- task: DownloadSecureFile@1
-  name: signingCert
-  inputs:
-    secureFile: '$(certificateName)'
-  displayName: 'Download Certificate'
-
-#- task: PowerShell@2
-#  displayName: 'Update Package Manifest'
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#    [xml]$manifest = get-content "$(packageAppManifestPath)"
-#    $manifest.Package.Identity.Name = "$(packageIdentityName)$(packageIdentitySuffix)"
-#    $manifest.Package.Identity.Version = "$(packageVersion)"
-#    $manifest.Package.Properties.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
-#    $manifest.Package.Applications.Application.VisualElements.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
-#    $manifest.save("$(packageAppManifestPath)")
-
-- powershell: |
-   [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq") | Out-Null
-   $path = "$(packageAppManifestPath)"
-   $doc = [System.Xml.Linq.XDocument]::Load($path)
-   $xName = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
-   $doc.Root.Element($xName).Attribute("Name").Value = "$(packageIdentityName)$(packageIdentitySuffix)";
-   $doc.Root.Element($xName).Attribute("Version").Value = "$(packageVersion)";   
-   $xProperties = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Properties"
-   $doc.Root.Element($xProperties).Element("DisplayName").Value = "$(packageDisplayName)$(packageDisplayNameSuffix)";
-   $doc.Save($path)
-  displayName: 'Increment Package Manifest Revision'
-
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: $(buildPlatform)
-    configuration: $(buildConfiguration)    
-    msbuildArgs: '/restore 
-    /p:AppInstallerUri=$(packageUrl)/$(channelName) 
-    /p:AppxPackageDir=$(Build.ArtifactStagingDirectory)/$(channelName) 
-    /p:UapAppxPackageBuildMode=SideLoadOnly 
-    /p:GenerateAppInstallerFile=True
-    /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun
-    /p:AppInstallerUpdateFrequency=1
-    /p:AppxBundle=Never'
-    #/p:OutputPath=NonPackagedApp
-    #/p:AppxPackageSigningEnabled=false
-    #/p:PackageCertificateThumbprint="444EAE8EF9A571539D03E3A37D76A780F504171B" 
-    #/p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
-    #/p:PackageCertificatePassword="$(secret)"
-
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*.Tests.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-#copy app packages content
-- task: CopyFiles@2
-  displayName: 'Copy Files to $(build.artifactstagingdirectory)'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\bin\$(BuildConfiguration)\**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-    OverWrite: true
-  condition: succeededOrFailed()
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Install .NET Core $(dotnetVersion)'
+    inputs:
+      version: '$(dotnetVersion)'
+      performMultiLevelLookup: true
+  
+  - task: NuGetToolInstaller@1
+  
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: '$(solution)'
+      
+  - task: DownloadSecureFile@1
+    name: signingCert
+    inputs:
+      secureFile: '$(certificateName)'
+    displayName: 'Download Certificate'
+  
+  #- task: PowerShell@2
+  #  displayName: 'Update Package Manifest'
+  #  inputs:
+  #    targetType: 'inline'
+  #    script: |
+  #    [xml]$manifest = get-content "$(packageAppManifestPath)"
+  #    $manifest.Package.Identity.Name = "$(packageIdentityName)$(packageIdentitySuffix)"
+  #    $manifest.Package.Identity.Version = "$(packageVersion)"
+  #    $manifest.Package.Properties.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
+  #    $manifest.Package.Applications.Application.VisualElements.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
+  #    $manifest.save("$(packageAppManifestPath)")
+  
+  - powershell: |
+     [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq") | Out-Null
+     $path = "$(packageAppManifestPath)"
+     $doc = [System.Xml.Linq.XDocument]::Load($path)
+     $xName = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
+     $doc.Root.Element($xName).Attribute("Name").Value = "$(packageIdentityName)$(packageIdentitySuffix)";
+     $doc.Root.Element($xName).Attribute("Version").Value = "$(packageVersion)";   
+     $xProperties = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Properties"
+     $doc.Root.Element($xProperties).Element("DisplayName").Value = "$(packageDisplayName)$(packageDisplayNameSuffix)";
+     $doc.Save($path)
+    displayName: 'Increment Package Manifest Revision'
+  
+  
+  - task: VSBuild@1
+    inputs:
+      solution: '$(solution)'
+      platform: $(buildPlatform)
+      configuration: $(buildConfiguration)    
+      msbuildArgs: '/restore 
+      /p:AppInstallerUri=$(packageUrl)/$(channelName) 
+      /p:AppxPackageDir=$(Build.ArtifactStagingDirectory)/$(channelName) 
+      /p:UapAppxPackageBuildMode=SideLoadOnly 
+      /p:GenerateAppInstallerFile=True
+      /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun
+      /p:AppInstallerUpdateFrequency=1
+      /p:AppxBundle=Never'
+      #/p:OutputPath=NonPackagedApp
+      #/p:AppxPackageSigningEnabled=false
+      #/p:PackageCertificateThumbprint="444EAE8EF9A571539D03E3A37D76A780F504171B" 
+      #/p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
+      #/p:PackageCertificatePassword="$(secret)"
+  
+  - task: VSTest@2
+    inputs:
+      testSelector: 'testAssemblies'
+      testAssemblyVer2: |
+        **\*.Tests.dll
+        !**\*TestAdapter.dll
+        !**\obj\**
+      searchFolder: '$(System.DefaultWorkingDirectory)'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+  
+  #copy app packages content
+  - task: CopyFiles@2
+    displayName: 'Copy Files to $(build.artifactstagingdirectory)'
+    inputs:
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: '**\bin\$(BuildConfiguration)\**'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+      OverWrite: true
+    condition: succeededOrFailed()
+  
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
+  
