@@ -62,16 +62,16 @@ jobs:
     displayName: 'Download Certificate'
   
   - task: PowerShell@2
-    displayName: 'Update Package Manifest'
     inputs:
       targetType: 'inline'
       script: |
-      [xml]$manifest = get-content "$(packageAppManifestPath)"
-      $manifest.Package.Identity.Name = "$(packageIdentityName)$(packageIdentitySuffix)"
-      $manifest.Package.Identity.Version = "$(packageVersion)"
-      $manifest.Package.Properties.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
-      $manifest.Package.Applications.Application.VisualElements.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
-      $manifest.save("$(packageAppManifestPath)")
+        [xml]$manifest = get-content "$(packageAppManifestPath)"
+        $manifest.Package.Identity.Name = "$(packageIdentityName)$(packageIdentitySuffix)"
+        $manifest.Package.Identity.Version = "$(packageVersion)"
+        $manifest.Package.Properties.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
+        $manifest.Package.Applications.Application.VisualElements.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
+        $manifest.save("$(packageAppManifestPath)")
+    displayName: 'Update Package Manifest'
   
 # - powershell: |
 #    [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq") | Out-Null
