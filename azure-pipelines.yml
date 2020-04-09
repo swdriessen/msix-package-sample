@@ -30,7 +30,7 @@ variables:
 
 #release channels (dev/preview/production)
 jobs: 
-- job: 'Package MSIX'
+- job: 'Package_MSIX'
   strategy:
     matrix: 
       Preview:
