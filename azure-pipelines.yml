@@ -14,16 +14,37 @@ variables:
   buildPlatform: 'x64'
   buildConfiguration: 'Release'
   dotnetVersion: '3.1.x'
-  certificateName: 'MSIXPackage_TemporaryKey.pfx'
+  #package variables
+  packageAppManifestPath: "$(System.DefaultWorkingDirectory)/src/MSIXPackage/Package.appxmanifest";
   major: 1
   minor: 0
-  build: 2
+  build: 3
   revision: $[counter('rev', 0)]
-  packageUrl: https://downloads.swdriessen.nl/msix
+  packageIdentityName: 'swdriessen-msix-package'
+  packageDisplayName: 'MSIX Application'
+  packageVersion: '1.0.2.$(revision)'
+  packageUrl: 'https://downloads.swdriessen.nl/msix'
+  #certificate
+  certificateName: 'MSIXPackage_TemporaryKey.pfx'
+
+
+#release channels (dev/preview/production)
+jobs: 
+- job: 'Package MSIX'
+  strategy:
+    matrix: 
+      Preview:
+        channelName: 'preview'
+        packageIdentitySuffix: '-preview'
+        packageDisplayNameSuffix: ' [PREVIEW]'
+      Production:
+        channelName: 'production'
+        packageIdentitySuffix: ''
+        packageDisplayNameSuffix: ''
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Install .NET Core SDK $(dotnetVersion)'
+  displayName: 'Install .NET Core $(dotnetVersion)'
   inputs:
     version: '$(dotnetVersion)'
     performMultiLevelLookup: true
@@ -33,75 +54,43 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-
-#- task: VSBuild@1
-#  inputs:
-#    solution: '$(solution)'
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
-
-#- task: VSTest@2
-#  inputs:
-#    testSelector: 'testAssemblies'
-#    testAssemblyVer2: |
-#      **\*.Tests.dll
-#      !**\*TestAdapter.dll
-#      !**\obj\**
-#    searchFolder: '$(System.DefaultWorkingDirectory)'
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
-
-#auto increment revision version
-
-- powershell: |
-   [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq") | Out-Null
-   $path = "$(System.DefaultWorkingDirectory)/src/MSIXPackage/Package.appxmanifest"
-   $doc = [System.Xml.Linq.XDocument]::Load($path)
-   $xName = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity"
-   $doc.Root.Element($xName).Attribute("Version").Value = "$(major).$(minor).$(build).$(revision)";
-   $doc.Save($path)
-  displayName: 'Increment Package Manifest Revision'
-
-# build package
-- task: VSBuild@1
-  inputs:
-    #solution: '$(System.DefaultWorkingDirectory)/src/MSIXPackage/MSIXPackage.wapproj'
-    solution: '$(solution)'
-    platform: $(buildPlatform)
-    configuration: $(buildConfiguration)
-    # msbuildArguments: '/p:OutputPath=NonPackagedApp /p:UapAppxPackageBuildMode=SideLoadOnly 
-    # /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\MSIXPackage.msix /p:AppxPackageSigningEnabled=false'
-
-    # msbuildArguments: '/p:AppxBundlePlatforms="$(buildPlatform)" 
-    #               /p:AppxPackageDir="$(appxPackageDir)" 
-    #               /p:AppxBundle=Never 
-    #               p:UapAppxPackageBuildMode=SideLoadOnly 
-    #               /p:AppxPackageSigningEnabled=true
-    #               /p:PackageCertificateThumbprint="" 
-    #               /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
     
-    msbuildArgs: '/p:OutputPath=NonPackagedApp 
-    /p:UapAppxPackageBuildMode=SideLoadOnly  
-    /p:AppxBundle=Never 
-    /p:GenerateAppInstallerFile=True
-    /p:AppInstallerUri=https://downloads.swdriessen.nl/msix
-    /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun 
-    /p:AppInstallerUpdateFrequency=1 
-    /p:AppxPackageDir=$(Build.ArtifactStagingDirectory)/
-    /p:AppxPackageSigningEnabled=false
-    /p:PackageCertificateThumbprint="444EAE8EF9A571539D03E3A37D76A780F504171B" 
-    /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
-    /p:PackageCertificatePassword="$(secret)"'
-
-  #displayName: 'Package the App'
-
-# sign package
 - task: DownloadSecureFile@1
   name: signingCert
   inputs:
     secureFile: '$(certificateName)'
-  displayName: 'Download Secure PFX File'
+  displayName: 'Download Certificate'
 
+- task: PowerShell@2
+  displayName: 'Update Package Manifest'
+  inputs:
+    targetType: 'inline'
+    script: |
+    [xml]$manifest= get-content "$(packageAppManifestPath)"
+    $manifest.Package.Identity.Name = "$(packageIdentityName)$(packageIdentitySuffix)"
+    $manifest.Package.Identity.Version = "$(packageVersion)"
+    $manifest.Package.Properties.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
+    $manifest.Package.Applications.Application.VisualElements.DisplayName = "$(packageDisplayName)$(packageDisplayNameSuffix)"
+    $manifest.save("$(packageAppManifestPath)")
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: $(buildPlatform)
+    configuration: $(buildConfiguration)    
+    msbuildArgs: '/restore 
+    /p:AppInstallerUri=$(packageUrl)/$(channelName) 
+    /p:AppxPackageDir=$(Build.ArtifactStagingDirectory)/$(channelName) 
+    /p:UapAppxPackageBuildMode=SideLoadOnly 
+    /p:GenerateAppInstallerFile=True
+    /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun
+    /p:AppInstallerUpdateFrequency=1
+    /p:AppxBundle=Never'
+    #/p:OutputPath=NonPackagedApp
+    #/p:AppxPackageSigningEnabled=false
+    #/p:PackageCertificateThumbprint="444EAE8EF9A571539D03E3A37D76A780F504171B" 
+    #/p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
+    #/p:PackageCertificatePassword="$(secret)"
 
 - task: VSTest@2
   inputs:

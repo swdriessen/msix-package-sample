@@ -8,7 +8,7 @@
   IgnorableNamespaces="uap uap3 rescap">
 
   <Identity
-    Name="3b64c250-85a4-48f9-8be0-e100e8d7541c"
+    Name="swdriessen-msix-package-dev"
     Publisher="CN=swdriessen"
     Version="1.0.2.0" />
 
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="MSIX Demo Application"
+        DisplayName="MSIX Application"
         Description="testing signed MSIX installer in combination with CI/CD"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png"  BackgroundColor="#151517">

@@ -20,8 +20,6 @@ namespace PackageSample.UI
                 //MessageBox.Show(string.Join(", ", e.Args), "Arguments Provided");
             }
 
-
-
             this.MainWindow = new MainWindow(e.Args);
             this.MainWindow.Show();
         }

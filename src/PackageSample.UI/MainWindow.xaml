@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PackageSample.UI"
         mc:Ignorable="d" Background="#eee"
         WindowStartupLocation="CenterScreen"
-        Title="Package Sample" Height="800" Width="600">
+        Title="Package Sample" Height="622" Width="612">
     <Grid>
         <Grid.Resources>
             <Style TargetType="TextBox">
@@ -52,6 +52,7 @@
                 <Button Content="Show Sample Toast" Margin="10,0" Padding="8,4" Click="SampleToastClick" MinWidth="75" HorizontalAlignment="Right"/>
                 <Button Content="Clear Settings" Margin="0,0" Padding="8,4" Click="ClearSettingsClick" MinWidth="75" HorizontalAlignment="Right"/>
                 <Button Content="CEF" Margin="10,0" Padding="8,4" Click="CefClick" MinWidth="75" HorizontalAlignment="Right"/>
+                <Button Content="Islands" Margin="0,0" Padding="8,4" Click="IslandsClick" MinWidth="75" HorizontalAlignment="Right"/>
             </StackPanel>
 
             <TextBlock Text="Setting 1" />

@@ -252,5 +252,10 @@ namespace PackageSample.UI
             var cef = new CEFWindow();
             cef.Show();
         }
+        private void IslandsClick(object sender, RoutedEventArgs e)
+        {
+            var window = new Islands();
+            window.Show();
+        }
     }
 }
