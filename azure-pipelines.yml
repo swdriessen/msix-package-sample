@@ -37,10 +37,10 @@ jobs:
         channelName: 'preview'
         packageIdentitySuffix: '-preview'
         packageDisplayNameSuffix: ' [PREVIEW]'
-      Production:
-        channelName: 'production'
-        packageIdentitySuffix: ''
-        packageDisplayNameSuffix: ''
+      #Production:
+      #  channelName: 'production'
+      #  packageIdentitySuffix: ''
+      #  packageDisplayNameSuffix: ''
 
   steps:
   - task: UseDotNet@2
@@ -81,7 +81,7 @@ jobs:
      $doc.Root.Element($xName).Attribute("Name").Value = "$(packageIdentityName)$(packageIdentitySuffix)";
      $doc.Root.Element($xName).Attribute("Version").Value = "$(packageVersion)";   
      $xProperties = "{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Properties"
-     $doc.Root.Element($xProperties).Element("DisplayName").Value = "$(packageDisplayName)$(packageDisplayNameSuffix)";
+     $doc.Root.Element($xProperties).Element("DisplayName").InnerText = "$(packageDisplayName)$(packageDisplayNameSuffix)";
      $doc.Save($path)
     displayName: 'Increment Package Manifest Revision'
   
