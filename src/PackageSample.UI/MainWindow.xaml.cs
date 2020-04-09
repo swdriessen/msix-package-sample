@@ -246,5 +246,11 @@ namespace PackageSample.UI
             localSettings.Values.Clear();
 
         }
+
+        private void CefClick(object sender, RoutedEventArgs e)
+        {
+            var cef = new CEFWindow();
+            cef.Show();
+        }
     }
 }

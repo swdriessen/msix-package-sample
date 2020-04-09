@@ -51,6 +51,7 @@
                 <Button Content="Check for Application Update" Margin="0,0" Padding="8,4" Click="ButtonBase_OnClick" MinWidth="75" HorizontalAlignment="Right"/>
                 <Button Content="Show Sample Toast" Margin="10,0" Padding="8,4" Click="SampleToastClick" MinWidth="75" HorizontalAlignment="Right"/>
                 <Button Content="Clear Settings" Margin="0,0" Padding="8,4" Click="ClearSettingsClick" MinWidth="75" HorizontalAlignment="Right"/>
+                <Button Content="CEF" Margin="10,0" Padding="8,4" Click="CefClick" MinWidth="75" HorizontalAlignment="Right"/>
             </StackPanel>
 
             <TextBlock Text="Setting 1" />
