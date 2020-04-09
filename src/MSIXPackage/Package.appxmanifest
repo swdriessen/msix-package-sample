@@ -34,9 +34,8 @@
       <uap:VisualElements
         DisplayName="MSIX Demo Application"
         Description="testing signed MSIX installer in combination with CI/CD"
-        BackgroundColor="#151517"
         Square150x150Logo="Images\Square150x150Logo.png"
-        Square44x44Logo="Images\Square44x44Logo.png">
+        Square44x44Logo="Images\Square44x44Logo.png"  BackgroundColor="#151517">
         <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo"/>
@@ -53,7 +52,7 @@
               <uap:FileType ContentType="text/xml">.dnd5e</uap:FileType>
             </uap:SupportedFileTypes>
             <uap:DisplayName>Aurora Character File</uap:DisplayName>
-            <uap:Logo>viking-padded.png</uap:Logo>
+            <uap:Logo>sample-icon.jpg</uap:Logo>
             <uap:InfoTip>This is a character file for Aurora.</uap:InfoTip>
           </uap3:FileTypeAssociation>
         </uap:Extension>
@@ -73,7 +72,7 @@
             </uap:SupportedFileTypes>
             <uap:DisplayName>Aurora File</uap:DisplayName>
             <uap:InfoTip>This is a file for Aurora.</uap:InfoTip>
-            <uap:Logo>viking-padded.png</uap:Logo>
+            <uap:Logo>sample-icon.jpg</uap:Logo>
           </uap:FileTypeAssociation>
         </uap:Extension>
       </Extensions>

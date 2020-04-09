@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PackageSample.UI"
         mc:Ignorable="d" Background="#eee"
         WindowStartupLocation="CenterScreen"
-        Title="Package Sample" Height="450" Width="700">
+        Title="Package Sample" Height="800" Width="600">
     <Grid>
         <Grid.Resources>
             <Style TargetType="TextBox">
@@ -46,7 +46,24 @@
                 <TextBox Text="https://downloads.swdriessen.nl/msix" />
             </DockPanel>
 
-            <Button Content="Check for Application Update" Margin="0,14" Padding="8,4" Click="ButtonBase_OnClick" MinWidth="75" HorizontalAlignment="Right"/>
+            <TextBlock Text="Actions" />
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,0">
+                <Button Content="Check for Application Update" Margin="0,0" Padding="8,4" Click="ButtonBase_OnClick" MinWidth="75" HorizontalAlignment="Right"/>
+                <Button Content="Show Sample Toast" Margin="10,0" Padding="8,4" Click="SampleToastClick" MinWidth="75" HorizontalAlignment="Right"/>
+                <Button Content="Clear Settings" Margin="0,0" Padding="8,4" Click="ClearSettingsClick" MinWidth="75" HorizontalAlignment="Right"/>
+            </StackPanel>
+
+            <TextBlock Text="Setting 1" />
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Margin="4,0,0,0" MinWidth="26" Padding="8,4" Click="Action1Click">Clear</Button>
+                <TextBox x:Name="txtSetting1" Text="" />
+            </DockPanel>
+            <TextBlock Text="Setting 2" />
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Margin="4,0,0,0" MinWidth="26" Padding="8,4" Click="Action2Click">Clear</Button>
+                <TextBox x:Name="txtSetting2" Text="" />
+            </DockPanel>
+
         </StackPanel>
     </Grid>
 </Window>
